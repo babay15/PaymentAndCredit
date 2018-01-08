@@ -13,12 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -26,6 +27,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "cash")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Cash.findAll", query = "SELECT c FROM Cash c")
     , @NamedQuery(name = "Cash.findByCashId", query = "SELECT c FROM Cash c WHERE c.cashId = :cashId")
@@ -77,7 +79,7 @@ public class Cash implements Serializable {
     @Column(name = "cash_flag")
     private String cashFlag;
     @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Payment paymentId;
 
     public Cash() {

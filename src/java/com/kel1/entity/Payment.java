@@ -6,7 +6,6 @@
 package com.kel1.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,13 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -29,6 +28,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "payment")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p")
     , @NamedQuery(name = "Payment.findByPaymentId", query = "SELECT p FROM Payment p WHERE p.paymentId = :paymentId")
@@ -68,12 +68,12 @@ public class Payment implements Serializable {
     @Column(name = "payment_flag")
     private String paymentFlag;
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Customer customerId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentId")
-    private List<Credit> creditList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentId")
-    private List<Cash> cashList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "paymentId")
+    private Credit credit;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "paymentId")
+    private Cash cash;
 
     public Payment() {
     }
@@ -152,20 +152,20 @@ public class Payment implements Serializable {
         this.customerId = customerId;
     }
 
-    public List<Credit> getCreditList() {
-        return creditList;
+    public Credit getCredit() {
+        return credit;
     }
 
-    public void setCreditList(List<Credit> creditList) {
-        this.creditList = creditList;
+    public void setCredit(Credit credit) {
+        this.credit = credit;
     }
 
-    public List<Cash> getCashList() {
-        return cashList;
+    public Cash getCash() {
+        return cash;
     }
 
-    public void setCashList(List<Cash> cashList) {
-        this.cashList = cashList;
+    public void setCash(Cash cash) {
+        this.cash = cash;
     }
 
     @Override

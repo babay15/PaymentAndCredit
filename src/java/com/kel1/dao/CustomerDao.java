@@ -6,7 +6,10 @@
 package com.kel1.dao;
 
 import com.kel1.entity.Admin;
+import com.kel1.entity.Cash;
+import com.kel1.entity.Credit;
 import com.kel1.entity.Customer;
+import com.kel1.entity.Payment;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -50,6 +53,26 @@ public class CustomerDao {
         Query query = em.createNamedQuery("Customer.findAll");
         List<Customer> cust = query.getResultList();
         return cust;
+    }
+    
+    public void saveAllCash(Customer customer, Payment payment, Cash cash){
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(customer);
+        em.persist(payment);
+        em.persist(cash);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    public void saveAllCredit(Customer customer, Payment payment, Credit credit){
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(customer);
+        em.persist(payment);
+        em.persist(credit);
+        em.getTransaction().commit();
+        em.close();
     }
 
     public Customer findById(Integer id) {
